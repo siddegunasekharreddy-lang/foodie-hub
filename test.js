@@ -1,6 +1,12 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { server, calculateBill } = require("./server");
+const { createServer, calculateBill } = require("./server");
+
+const storedOrders = new Map();
+const server = createServer(async () => ({
+  saveOrder: async (order) => storedOrders.set(order.orderId, order),
+  findOrder: async (orderId) => storedOrders.get(orderId)
+}));
 
 let baseUrl;
 test.before(async () => {
@@ -112,4 +118,6 @@ test("places a valid order and returns a server-calculated bill", async () => {
   const saved = await lookup.json();
   assert.equal(lookup.status, 200);
   assert.equal(saved.order.orderId, data.order.orderId);
+  assert.equal(saved.order.createdAt, data.order.createdAt);
+  assert.equal(saved.order.customer, undefined);
 });

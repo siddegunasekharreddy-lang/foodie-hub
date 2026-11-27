@@ -2,7 +2,7 @@
 
 **Tagline:** Good food, good mood.
 
-Foodie-Hub is a responsive food-ordering website built for a college project using **HTML, CSS, JavaScript and Node.js**. Its backend uses Node.js built-in HTTP and file-system modules, so there are no third-party server dependencies. Customers can browse a menu, filter and search food, add quantities to a cart, apply a coupon, see a live bill and place a demo order.
+Foodie-Hub is a responsive food-ordering website built for a college project using **HTML, CSS, JavaScript and Node.js**. Customers can browse a menu, filter and search food, add quantities to a cart, apply a coupon, see a live bill and place a demo order.
 
 ## Features
 
@@ -22,8 +22,8 @@ Foodie-Hub is a responsive food-ordering website built for a college project usi
 
 ## Requirements
 
-- Node.js 18 or newer
-- npm (included with Node.js; no external packages are required)
+- Node.js 24 or newer
+- npm (included with Node.js)
 - Visual Studio Code (recommended)
 
 ## Run in Visual Studio Code
@@ -31,9 +31,10 @@ Foodie-Hub is a responsive food-ordering website built for a college project usi
 1. Download and extract `Foodie-Hub.zip`.
 2. Open the extracted **foodie-hub** folder in Visual Studio Code.
 3. Open **Terminal → New Terminal**.
-4. Start the server:
+4. Install dependencies and start the local server for browsing the menu:
 
    ```bash
+   npm ci
    npm start
    ```
 
@@ -47,11 +48,17 @@ You do not need to edit the code. Start the app with `npm start`; the server aut
 
 ### Development mode
 
-Node.js 18.11+ supports the built-in watch mode used by this project:
+Use the built-in watch mode for the standalone Node server:
 
 ```bash
 npm run dev
 ```
+
+To exercise checkout locally, link the project to Netlify and run `netlify dev --port 8889` with Netlify CLI 27.17 or newer. The local development database needs the orders migration before checkout works. The standalone server can serve the homepage and menu without a database.
+
+### Publish on Netlify
+
+Deploy the repository through Netlify. `netlify.toml` publishes `public/` as the site root, the Netlify Server handles `/api/*`, and Netlify applies the committed database migration during deployment. After publishing, verify the homepage and `/api/menu` before trying a demo checkout.
 
 ### Run tests
 
@@ -77,7 +84,7 @@ npm test
 | GET | `/api/health` | Check whether the server is running |
 | GET | `/api/menu` | Retrieve all food items |
 | POST | `/api/orders` | Validate and place a demo order |
-| GET | `/api/orders/:orderId` | Retrieve an order created during the current server session |
+| GET | `/api/orders/:orderId` | Retrieve a saved order summary without customer contact details |
 
 ### Example order request
 
@@ -117,7 +124,7 @@ foodie-hub/
 ## Important project notes
 
 - This is a **working academic/demo ordering flow**, not a live restaurant payment system. The UPI option is labelled as demo-only; no payment is processed.
-- Orders are stored in server memory for demonstration. They can be retrieved while the server is running, and are cleared when the server is stopped or restarted. A production deployment should use a database such as MongoDB and a real payment provider.
+- Demo orders are stored in Netlify Database and survive server restarts. Use fictional customer details when trying checkout; the demo does not process payments.
 - Food photos are loaded from Unsplash via remote image URLs, so the browser needs an internet connection to display them. Image availability is controlled by the image host.
 - Prices, tax and delivery rules are sample values for this student project and can be edited in `data/menu.js` and `server.js`.
 

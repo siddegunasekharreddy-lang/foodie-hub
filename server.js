@@ -1,11 +1,11 @@
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
+const { randomUUID } = require("node:crypto");
 const menu = require("./data/menu");
 
 const PORT = Number(process.env.PORT) || 3000;
 const PUBLIC_DIR = path.join(__dirname, "public");
-const orders = new Map();
 const MAX_BODY_BYTES = 100 * 1024;
 
 const MIME_TYPES = {
@@ -166,7 +166,7 @@ async function serveStatic(pathname, res) {
   }
 }
 
-async function handleRequest(req, res) {
+async function handleRequest(req, res, loadOrderStore) {
   const requestUrl = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const pathname = requestUrl.pathname;
 
@@ -193,7 +193,7 @@ async function handleRequest(req, res) {
       return sendJson(res, 400, { success: false, errors: normalized.errors });
     }
     const bill = calculateBill(normalized.items, normalized.couponCode);
-    const orderId = `FH${Date.now().toString().slice(-8)}${Math.floor(Math.random() * 90 + 10)}`;
+    const orderId = `FH${randomUUID()}`;
     const order = {
       orderId,
       customer: normalized.customer,
@@ -202,18 +202,28 @@ async function handleRequest(req, res) {
       status: "Order received",
       createdAt: new Date().toISOString()
     };
-    // Demo storage: orders are kept in memory until the server is stopped.
-    orders.set(orderId, order);
+    const { saveOrder } = await loadOrderStore();
+    await saveOrder(order);
     return sendJson(res, 201, { success: true, message: "Your order has been placed!", order });
   }
 
   const orderMatch = pathname.match(/^\/api\/orders\/([A-Za-z0-9-]+)$/);
   if (req.method === "GET" && orderMatch) {
-    const order = orders.get(orderMatch[1]);
+    const { findOrder } = await loadOrderStore();
+    const order = await findOrder(orderMatch[1]);
     if (!order) {
-      return sendJson(res, 404, { success: false, message: "Order not found. Demo orders reset when the server restarts." });
+      return sendJson(res, 404, { success: false, message: "Order not found." });
     }
-    return sendJson(res, 200, { success: true, order });
+    return sendJson(res, 200, {
+      success: true,
+      order: {
+        orderId: order.orderId,
+        items: order.items,
+        bill: order.bill,
+        status: order.status,
+        createdAt: new Date(order.createdAt).toISOString()
+      }
+    });
   }
 
   if (req.method === "GET" && !pathname.startsWith("/api/")) {
@@ -223,13 +233,22 @@ async function handleRequest(req, res) {
   return sendJson(res, 404, { success: false, message: "Endpoint not found." });
 }
 
-const server = http.createServer((req, res) => {
-  handleRequest(req, res).catch((error) => {
-    console.error("Request error:", error);
-    if (!res.headersSent) sendJson(res, 500, { success: false, message: "Internal server error." });
-    else if (!res.writableEnded) res.end();
+function createServer(loadOrderStore = () => import("./db/orders.mjs")) {
+  return http.createServer((req, res) => {
+    handleRequest(req, res, loadOrderStore).catch((error) => {
+      const databaseCode = error.cause?.code;
+      if (typeof databaseCode === "string" && /^[A-Z0-9]{5}$/.test(databaseCode)) {
+        console.error(`Foodie-Hub request failed (database code ${databaseCode}).`);
+      } else {
+        console.error("Foodie-Hub request failed.");
+      }
+      if (!res.headersSent) sendJson(res, 500, { success: false, message: "Internal server error." });
+      else if (!res.writableEnded) res.end();
+    });
   });
-});
+}
+
+const server = createServer();
 
 if (require.main === module) {
   // If the preferred port is already occupied, try the next available port.
@@ -273,4 +292,4 @@ if (require.main === module) {
   startServer(PORT);
 }
 
-module.exports = { server, calculateBill, validateAndNormalizeOrder };
+module.exports = { server, createServer, calculateBill, validateAndNormalizeOrder };
