@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#151515">
+  <meta name="description" content="Foodie-Hub — good food, good mood. Explore freshly prepared favourites and order online.">
+  <title>Foodie-Hub | Good food, good mood.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="announcement-bar">
+    <span class="announcement-dot"></span>
+    <span>Freshly made. Happily delivered.</span>
+    <span class="announcement-right">Free delivery on orders above ₹499</span>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Foodie-Hub home">
+      <span class="brand-mark">f<span>.</span></span>
+      <span class="brand-name">foodie<span>-hub</span><small>GOOD FOOD, GOOD MOOD.</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#menu" class="nav-link">Explore menu</a>
+      <a href="#why-us" class="nav-link">Why us</a>
+    </nav>
+    <button class="header-cart" id="open-cart" type="button" aria-label="Open shopping cart">
+      <span class="cart-icon" aria-hidden="true">🛍</span>
+      <span class="header-cart-label">My cart</span>
+      <span class="cart-count" id="header-cart-count">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <div class="eyebrow"><span>✦</span> YOUR CRAVINGS, OUR COMMAND</div>
+        <h1>Good food.<br><em>Great mood.</em></h1>
+        <p class="hero-description">From comfort classics to little treats, find the food that makes your day. Freshly prepared and delivered with love.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#menu">Explore the menu <span>↗</span></a>
+          <div class="hero-rating"><span class="rating-stars">★★★★★</span><span><strong>4.8/5</strong><small>Food lovers agree</small></span></div>
+        </div>
+        <div class="hero-footnote"><span class="tiny-check">✓</span> Fresh ingredients <span class="footnote-separator">·</span> <span class="tiny-check">✓</span> Made to order</div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-photo-main">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&q=90&fit=crop" alt="Fresh cheeseburger with lettuce, tomato and cheese" fetchpriority="high">
+        </div>
+        <div class="hero-photo-small">
+          <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=85&fit=crop" alt="Freshly baked pizza">
+        </div>
+        <div class="hero-stamp"><span>MADE WITH</span><strong>♥</strong><span>GOODNESS</span></div>
+        <div class="floating-note"><span class="floating-note-icon">⚡</span><span><strong>Quick bites</strong><small>Made fresh for you</small></span></div>
+        <span class="hero-sparkle sparkle-one">✳</span><span class="hero-sparkle sparkle-two">✦</span>
+      </div>
+      <div class="hero-bottom-line"><span>01 / 03</span><span class="hero-line"></span><span>SCROLL TO DISCOVER</span></div>
+    </section>
+
+    <section class="benefit-strip" id="why-us" aria-label="Foodie-Hub benefits">
+      <div class="benefit-item"><span class="benefit-icon">🥬</span><span><strong>Fresh ingredients</strong><small>Quality in every bite</small></span></div>
+      <div class="benefit-item"><span class="benefit-icon">🛵</span><span><strong>Fast delivery</strong><small>At your doorstep</small></span></div>
+      <div class="benefit-item"><span class="benefit-icon">👨‍🍳</span><span><strong>Made with care</strong><small>Prepared when you order</small></span></div>
+      <div class="benefit-item"><span class="benefit-icon">💛</span><span><strong>Happy prices</strong><small>Big flavour, fair prices</small></span></div>
+    </section>
+
+    <section class="menu-section" id="menu">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow"><span>✦</span> THE GOOD STUFF</div>
+          <h2>What are you <em>craving?</em></h2>
+          <p>Pick your favourites. We'll take care of the delicious part.</p>
+        </div>
+        <div class="menu-count"><strong id="menu-item-count">20</strong><span>delicious choices<br>and counting</span></div>
+      </div>
+
+      <div class="menu-toolbar">
+        <div class="category-list" id="category-list" aria-label="Filter by category">
+          <button class="category-chip selected" type="button" data-category="All" aria-pressed="true">All items <span>✦</span></button>
+          <button class="category-chip" type="button" data-category="Burgers" aria-pressed="false">🍔 Burgers</button>
+          <button class="category-chip" type="button" data-category="Pizza" aria-pressed="false">🍕 Pizza</button>
+          <button class="category-chip" type="button" data-category="Indian Meals" aria-pressed="false">🍛 Indian meals</button>
+          <button class="category-chip" type="button" data-category="Pasta" aria-pressed="false">🍝 Pasta</button>
+          <button class="category-chip" type="button" data-category="Asian" aria-pressed="false">🥢 Asian</button>
+          <button class="category-chip" type="button" data-category="Snacks" aria-pressed="false">🍟 Snacks</button>
+          <button class="category-chip" type="button" data-category="Desserts" aria-pressed="false">🍰 Desserts</button>
+          <button class="category-chip" type="button" data-category="Drinks" aria-pressed="false">🥤 Drinks</button>
+        </div>
+        <div class="menu-controls">
+          <label class="search-box" for="menu-search"><span aria-hidden="true">⌕</span><input id="menu-search" type="search" placeholder="Search food..." autocomplete="off"></label>
+          <label class="sort-box" for="sort-select"><span class="sr-only">Sort menu</span><select id="sort-select"><option value="recommended">Recommended</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="rating">Top rated</option></select></label>
+        </div>
+      </div>
+
+      <div class="diet-row">
+        <span class="diet-note">A little something for every appetite.</span>
+        <label class="veg-toggle"><input id="veg-only" type="checkbox"><span class="toggle-ui"></span> Veg only</label>
+      </div>
+
+      <div class="menu-grid" id="menu-grid" aria-live="polite">
+        <div class="loading-state"><span class="loader"></span><p>Setting the table...</p></div>
+      </div>
+      <div class="empty-state hidden" id="empty-state"><span>🥺</span><h3>No bites found</h3><p>Try another search or category.</p><button class="button button-outline" id="clear-filters" type="button">Clear filters</button></div>
+    </section>
+
+    <section class="promo-banner">
+      <div class="promo-copy"><span class="promo-kicker">A LITTLE THANK-YOU FROM US</span><h2>Your first order<br>just got <em>better.</em></h2><p>Use this code at checkout and enjoy 10% off orders above ₹199.</p><div class="coupon-display"><strong>FOODIE10</strong><button id="copy-coupon" type="button" aria-label="Copy coupon code">Copy code ↗</button></div></div>
+      <div class="promo-decoration"><span>10<small>% OFF</small></span><span class="promo-circle">GOOD<br>FOOD<br>CLUB</span></div>
+      <div class="promo-pattern"></div>
+    </section>
+
+    <section class="bottom-cta">
+      <span class="eyebrow"><span>✦</span> GOOD FOOD IS A GOOD IDEA</span>
+      <h2>Make today a <em>tasty one.</em></h2>
+      <a href="#menu" class="button button-primary">Find your favourite <span>↗</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#home"><span class="brand-mark">f<span>.</span></span><span class="brand-name">foodie<span>-hub</span><small>GOOD FOOD, GOOD MOOD.</small></span></a>
+    <p>Made for food lovers, with a little extra love. <span>♥</span></p>
+    <span class="copyright">© <span id="current-year"></span> Foodie-Hub · Student project</span>
+  </footer>
+
+  <div class="overlay" id="cart-overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="drawer-header"><div><span class="eyebrow">YOUR ORDER</span><h2>Your cart <span id="drawer-item-count">(0)</span></h2></div><button class="icon-button" id="close-cart" type="button" aria-label="Close cart">×</button></div>
+    <div class="cart-content" id="cart-content"><div class="cart-empty"><span>🛍️</span><h3>Your cart is taking a nap.</h3><p>Add something delicious to wake it up.</p><button class="button button-primary" id="start-ordering" type="button">Explore menu</button></div></div>
+    <div class="cart-summary hidden" id="cart-summary">
+      <div class="coupon-entry"><div><strong>Got a little code?</strong><small>Use FOODIE10 for 10% off orders ₹199+</small></div><div class="coupon-input-row"><input type="text" id="coupon-input" placeholder="Enter code" maxlength="20" aria-label="Coupon code"><button id="apply-coupon" type="button">Apply</button></div><p id="coupon-message" class="coupon-message" aria-live="polite"></p></div>
+      <div class="bill-lines" id="bill-lines"></div>
+      <button class="button button-primary checkout-button" id="checkout-button" type="button">Continue to checkout <span>↗</span></button>
+      <p class="secure-note">🔒 Secure demo checkout · No real payment is collected</p>
+    </div>
+  </aside>
+
+  <div class="modal-backdrop hidden" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+    <div class="checkout-modal modal-card">
+      <div class="modal-heading"><div><span class="eyebrow">ALMOST THERE</span><h2 id="checkout-title">Delivery details</h2><p>Where should we bring the good stuff?</p></div><button class="icon-button" id="close-checkout" type="button" aria-label="Close checkout">×</button></div>
+      <form id="checkout-form" novalidate>
+        <div class="form-grid">
+          <label class="form-field full-field">Full name<input name="name" type="text" placeholder="Your name" minlength="2" maxlength="60" required></label>
+          <label class="form-field">Phone number<input name="phone" type="tel" placeholder="10-digit mobile number" inputmode="tel" maxlength="16" required></label>
+          <label class="form-field">Payment method<select name="paymentMethod" required><option value="cod">Cash on Delivery</option><option value="upi-demo">UPI (demo only)</option></select></label>
+          <label class="form-field full-field">Delivery address<textarea name="address" placeholder="House / flat, street, area, city and PIN code" rows="3" minlength="8" maxlength="300" required></textarea></label>
+        </div>
+        <div class="checkout-total-row"><span>Payable amount</span><strong id="checkout-total">₹0</strong></div>
+        <p class="demo-payment-note">This is a classroom demo. UPI is not connected to a payment gateway.</p>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <button class="button button-primary checkout-submit" id="place-order-button" type="submit">Place my order <span>↗</span></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="success-modal" role="dialog" aria-modal="true" aria-labelledby="success-title">
+    <div class="success-card modal-card"><button class="icon-button success-close" id="close-success" type="button" aria-label="Close confirmation">×</button><div class="success-icon">✓</div><span class="eyebrow">ORDER CONFIRMED</span><h2 id="success-title">That's a tasty choice!</h2><p>Your order has been received. Get ready for something delicious.</p><div class="order-ticket"><span>ORDER NUMBER</span><strong id="success-order-id">FH00000000</strong><div class="ticket-divider"></div><span>ORDER TOTAL</span><strong id="success-order-total">₹0</strong></div><button class="button button-primary" id="done-button" type="button">Back to menu</button></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
